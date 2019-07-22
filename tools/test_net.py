@@ -1,6 +1,7 @@
 # Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
 # Set up custom environment before nearly anything else is imported
 # NOTE: this should be the first import (no not reorder)
+import _init_paths
 from maskrcnn_benchmark.utils.env import setup_environment  # noqa F401 isort:skip
 
 import argparse
@@ -166,10 +167,10 @@ def main():
     save_dir = ""
     logger = setup_logger("maskrcnn_benchmark", save_dir, get_rank())
     logger.info("Using {} GPUs".format(num_gpus))
-    logger.info(cfg)
+    logger.debug(cfg)
 
     logger.info("Collecting env info (might take some time)")
-    logger.info("\n" + collect_env_info())
+    logger.debug("\n" + collect_env_info())
 
     model = build_detection_model(cfg)
     model.to(cfg.MODEL.DEVICE)

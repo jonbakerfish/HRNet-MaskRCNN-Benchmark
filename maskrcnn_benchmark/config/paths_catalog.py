@@ -5,8 +5,21 @@ import os
 
 
 class DatasetCatalog(object):
-    DATA_DIR = "/hdfs/resrchvc/v-tich/data"
+    DATA_DIR = "datasets"
     DATASETS = {
+        "deepfashion2_train": {
+            "img_dir": "deepfashion2/train/image",
+            "ann_file": "deepfashion2/coco_instances_train.json"
+        },
+        "deepfashion2_val": {
+            "img_dir": "deepfashion2/validation/image",
+            "ann_file": "deepfashion2/coco_instances_val.json"
+        },
+        "deepfashion2_test": {
+            "img_dir": "deepfashion2/test/image",
+            "ann_file": "deepfashion2/coco_instances_test.json"
+        },
+        
         "coco_2017_train": {
             "img_dir": "coco/images/train2017",
             "ann_file": "coco/annotations/instances_train2017.json"
@@ -117,6 +130,17 @@ class DatasetCatalog(object):
             )
             return dict(
                 factory="PascalVOCDataset",
+                args=args,
+            )
+        elif "deepfashion2" in name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="DeepFashion2",
                 args=args,
             )
         raise RuntimeError("Dataset not available: {}".format(name))

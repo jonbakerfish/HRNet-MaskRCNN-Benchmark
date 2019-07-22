@@ -62,6 +62,10 @@ def inference(
         expected_results_sigma_tol=4,
         output_folder=None,
 ):
+    # if os.path.exists(os.path.join(output_folder, "predictions.pth")):
+    #     predictions = torch.load(os.path.join(output_folder, "predictions.pth"))
+    #     return predictions
+
     # convert to a torch.device for efficiency
     device = torch.device(device)
     num_devices = (
